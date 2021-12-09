@@ -15,7 +15,9 @@ const config = {
     }),
     mdsvex({
       extensions: [".md"],
-      layout: "./src/components/blog-post.svelte",
+      layout: {
+        blog: "./src/components/blog-post.svelte",
+      },
       remarkPlugins: [footnotes, slug, headings, unwrapImages],
     }),
   ],

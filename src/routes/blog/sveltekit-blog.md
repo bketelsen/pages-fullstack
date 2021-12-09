@@ -4,7 +4,7 @@ date: 2021-04-27
 ---
 
 <script>
-  import PhotoCaption from '../components/PhotoCaption.svelte';
+  import PhotoCaption from '$lib/PhotoCaption.svelte';
 </script>
 
 Up until now I've used [Lektor](https://www.getlektor.com), a Python based static site generator.
@@ -94,29 +94,29 @@ might give you an idea.
 
 ```js
 /* svelte.config.cjs */
-const preprocess = require('svelte-preprocess');
-const adapter = require('@sveltejs/adapter-static');
-const { mdsvex } = require('mdsvex');
-const headings = require('remark-autolink-headings');
-const slug = require('remark-slug');
+const preprocess = require("svelte-preprocess");
+const adapter = require("@sveltejs/adapter-static");
+const { mdsvex } = require("mdsvex");
+const headings = require("remark-autolink-headings");
+const slug = require("remark-slug");
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
-	extensions: ['.svelte', '.md'],
-	preprocess: [
-		preprocess({
-			postcss: true
-		}),
-		mdsvex({
-			extensions: ['.md'],
-			layout: './src/components/blog-post.svelte',
-			remarkPlugins: [slug, headings]
-		})
-	],
-	kit: {
-		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
-		adapter: adapter()
-	}
+  extensions: [".svelte", ".md"],
+  preprocess: [
+    preprocess({
+      postcss: true,
+    }),
+    mdsvex({
+      extensions: [".md"],
+      layout: "./src/components/blog-post.svelte",
+      remarkPlugins: [slug, headings],
+    }),
+  ],
+  kit: {
+    // hydrate the <div id="svelte"> element in src/app.html
+    target: "#svelte",
+    adapter: adapter(),
+  },
 };
 ```
 
@@ -221,21 +221,21 @@ Gitpod):
 /* src/hooks.js */
 /** @type {import('@sveltejs/kit').GetSession} */
 export const getSession = async () => {
-	const markdownFiles = import.meta.glob('/src/routes/*.md');
-	const posts = await Promise.all(
-		Object.entries(markdownFiles).map(async ([path, page]) => {
-			const { metadata } = await page();
-			let pathComponents = path.split('/');
-			const filename = pathComponents.pop();
-			const slug = filename.split('.md', 1)[0];
-			return { ...metadata, filename, slug };
-		})
-	);
-	posts.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+  const markdownFiles = import.meta.glob("/src/routes/*.md");
+  const posts = await Promise.all(
+    Object.entries(markdownFiles).map(async ([path, page]) => {
+      const { metadata } = await page();
+      let pathComponents = path.split("/");
+      const filename = pathComponents.pop();
+      const slug = filename.split(".md", 1)[0];
+      return { ...metadata, filename, slug };
+    })
+  );
+  posts.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
-	return {
-		posts
-	};
+  return {
+    posts,
+  };
 };
 ```
 
@@ -243,11 +243,11 @@ export const getSession = async () => {
 
 ```svelte
 <script context="module">
-	export const prerender = true;
-	export async function load({ session }) {
-		const posts = session.posts;
-		return { props: { posts } };
-	}
+  export const prerender = true;
+  export async function load({ session }) {
+    const posts = session.posts;
+    return { props: { posts } };
+  }
 </script>
 
 /* trimmed ... */
@@ -320,7 +320,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: "16.x"
 
       - name: Get npm cache directory
         id: npm-cache-dir
@@ -353,11 +353,11 @@ since that can indicate a `&lt;br&gt;` — just set `proseWrap: "always"`.
 
 ```json
 {
-	"useTabs": true,
-	"singleQuote": true,
-	"trailingComma": "none",
-	"printWidth": 100,
-	"proseWrap": "always"
+  "useTabs": true,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "printWidth": 100,
+  "proseWrap": "always"
 }
 ```
 
@@ -367,9 +367,9 @@ Adding an RSS XML is easy in SvelteKit. Simply create a `routes/feed.xml.js` fil
 function that returns a `{body: xmlString}`. Mine looks like this:
 
 ```js
-import getPosts from '$lib/getPosts';
+import getPosts from "$lib/getPosts";
 
-const siteUrl = 'https://www.solberg.is';
+const siteUrl = "https://www.solberg.is";
 
 const renderXmlRssFeed = (posts) => `<?xml version="1.0"?>
 <rss version="2.0">
@@ -377,31 +377,31 @@ const renderXmlRssFeed = (posts) => `<?xml version="1.0"?>
     <title>Jökull Sólberg</title>
     <link>${siteUrl}</link>
     ${posts
-			.map(
-				(post) => `
+      .map(
+        (post) => `
     <item>
        <title>${post.title}</title>
        <link>${siteUrl}/${post.slug}</link>
        <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     </item>
     `
-			)
-			.join('\n')}
+      )
+      .join("\n")}
   </channel>
 </rss>`;
 
 export async function get() {
-	const feed = renderXmlRssFeed(await getPosts());
-	return {
-		body: feed,
-		headers: { 'content-type': 'application/rss+xml' }
-	};
+  const feed = renderXmlRssFeed(await getPosts());
+  return {
+    body: feed,
+    headers: { "content-type": "application/rss+xml" },
+  };
 }
 ```
 
 ## Issues
 
-- ~~I still haven't got the footnotes Remark plugin to work.~~  
+- ~~I still haven't got the footnotes Remark plugin to work.~~
   **UPDATE:** Make sure to install `npm add --save-dev remark-footnotes@2.0` - 3.0 does not work
   with mdsvex.
 - UPDATE May 3: [/feed.xml](/feed.xml) added - with a blog section.

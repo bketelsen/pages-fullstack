@@ -1,10 +1,11 @@
 ---
 title: 2019 annáll
-date: 2019-12-26
+date: 2019-12-26T00:00:00.000Z
+lastmod: "2021-12-09T15:35:21.321Z"
 ---
 
 <script>
-  import PhotoCaption from '../components/PhotoCaption.svelte';
+  import PhotoCaption from '$lib/PhotoCaption.svelte';
 </script>
 
 ## Bækur 2019

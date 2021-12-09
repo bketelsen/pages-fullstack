@@ -1,10 +1,11 @@
 ---
 title: Tools that I use
-date: 2021-10-25
+date: 2021-10-25T00:00:00.000Z
+lastmod: "2021-12-09T16:04:58.389Z"
 ---
 
 <script>
-  import Tool from '../components/Tool.svelte';
+  import Tool from '$lib/Tool.svelte';
 </script>
 
 <div class="not-prose">

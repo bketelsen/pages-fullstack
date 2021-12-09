@@ -4,7 +4,7 @@ date: 2018-12-11
 ---
 
 <script>
-  import PhotoCaption from '../components/PhotoCaption.svelte';
+  import PhotoCaption from '$lib/PhotoCaption.svelte';
 </script>
 
 This paper is an investigation of the viability and scale potential of operating a privately owned
@@ -251,9 +251,9 @@ Excluded
 | Grafarholt og Úlfarsárdalur | 22.5      | 5,416      |
 | -                           | **109.8** | **55,218** |
 
-<PhotoCaption 
-  url="/blog/service-area.png" 
-  caption="Image shows density of building square meters per hectare of land. Data from ssh.is. The phase 1 geofence is the green area. http://www.ssh.is/husnaedi/thettleiki" 
+<PhotoCaption
+  url="/blog/service-area.png"
+  caption="Image shows density of building square meters per hectare of land. Data from ssh.is. The phase 1 geofence is the green area. http://www.ssh.is/husnaedi/thettleiki"
 />
 
 The capital area includes these connect municipalities which are potentially included with a single
